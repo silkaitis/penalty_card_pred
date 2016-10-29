@@ -31,6 +31,8 @@ def do_i_wait():
     '''
     Input: None
     Output: None
+    Note: Function waits one hour between calls
+            to adhere to API rules
     '''
     if not os.path.isfile('data/last_call.p'):
         pickle.dump(datetime.datetime.now(),
@@ -54,9 +56,7 @@ def historic_data(league, seasons, fpath, api_call, api_conn):
            api_call ~ fixtures or table; STR
            api_conn ~ XmlSoccer method; class
            api_time ~ time of last API call; datetime
-    Output: api_time ~ time of last API call; datetime
-    Note: Function waits one hour between calls
-            to adhere to API rules
+    Output: None
     '''
     if api_call == 'fixtures':
         method = 'GetHistoricMatchesByLeagueAndSeaon'

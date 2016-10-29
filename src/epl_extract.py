@@ -24,18 +24,17 @@ table_fpath = '../data/sea_tables/'
 '''
 Extract league tables
 '''
-last_call = historic_data(league = EPL,
-                            season = seasons,
-                            fpath = table_fpath,
-                            api_call = 'table',
-                            api_conn = xmls)
+historic_data(league = EPL,
+                season = seasons,
+                fpath = table_fpath,
+                api_call = 'table',
+                api_conn = xmls)
 
 '''
 Extract league fixtures
 '''
-last_call = historic_data(league = EPL,
-                            season = seasons,
-                            fpath = fixture_fpath,
-                            api_call = 'fixtures',
-                            api_conn = xmls,
-                            api_time = last_call)
+historic_data(league = EPL,
+                season = seasons,
+                fpath = fixture_fpath,
+                api_call = 'fixtures',
+                api_conn = xmls)
