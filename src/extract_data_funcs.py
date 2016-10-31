@@ -2,15 +2,19 @@ import json
 import yaml
 import datetime
 import os
+import sys
 import pickle
 
 from time import sleep
 
 def season_builder(start, finish):
     '''
-    Input: start ~ first year of first season available; INT
-           finish ~ first year of last season available; INT
-    Output: soln ~ list of two year code of season; LIST
+    Input:
+        - start: first year of first season available (INT)
+        - finish: first year of last season available (INT)
+    Output:
+        - soln: list of two year code of season (LIST)
+
     Example:
         start = 1
         end = 3
@@ -27,39 +31,78 @@ def season_builder(start, finish):
         soln.append(sea)
     return(soln)
 
+def sleep_progress(length):
+    '''
+    Input:
+        - length: time in seconds to wait till next API call (INT)
+    Output:
+        - None
+    '''
+    toolbar_width = 40
+
+    # setup toolbar
+    sys.stdout.write("[%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
+    sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
+
+    increment = length / float(toolbar_width)
+    for i in xrange(toolbar_width):
+        sleep(increment)
+        # update the bar
+        sys.stdout.write("-")
+        sys.stdout.flush()
+
+    sys.stdout.write("\n")
+
+def call_time():
+    '''
+    Input:
+        - None
+    Output:
+        - None
+    Store current time in a pickle file
+    '''
+    pickle.dump(datetime.datetime.now(), open('data/last_call.p', 'wb'))
+
 def do_i_wait():
     '''
-    Input: None
-    Output: None
-    Note: Function waits one hour between calls
-            to adhere to API rules
+    Input:
+        - None
+    Output:
+        - None
+    Decide whether to wait one hour between calls to adhere to API rules
     '''
+    api_wait = 3601
+
     if not os.path.isfile('data/last_call.p'):
-        pickle.dump(datetime.datetime.now(),
-                    open('data/last_call.p', 'wb'))
+        call_time()
         return
     else:
         api_time = pickle.load(open('data/last_call.p', 'r'))
-        d_time = (datetime.datetime.now - api_time).seconds
-        if d_time < 3600:
-            sleep(3600 - d_time)
-            return
-        else:
-            return
+        d_time = (datetime.datetime.now() - api_time).seconds
+        delta = api_wait - d_time
+
+        if d_time < api_wait:
+            print('Waiting on API: {} seconds'.format(delta))
+            sleep_progress(delta)
+
+        return
 
 
 def historic_data(league, seasons, fpath, api_call, api_conn):
     '''
-    Input: league ~ name of league; STR
-           seasons ~ two year code of season; LIST
-           fpath ~ file path to save data; STR
-           api_call ~ fixtures or table; STR
-           api_conn ~ XmlSoccer method; class
-           api_time ~ time of last API call; datetime
-    Output: None
+    Input:
+        - league: name of league (STR)
+        - seasons: two year code of season (LIST)
+        - fpath: file path to save data (STR)
+        - api_call: fixtures or table (STR)
+        - api_conn: XmlSoccer method (class)
+    Output:
+        - None
+    Exports historical season data to JSON file
     '''
     if api_call == 'fixtures':
-        method = 'GetHistoricMatchesByLeagueAndSeaon'
+        method = 'GetHistoricMatchesByLeagueAndSeason'
         prefix = 'fixtures_'
     elif api_call == 'table':
         method = 'GetLeagueStandingsBySeason'
@@ -75,10 +118,10 @@ def historic_data(league, seasons, fpath, api_call, api_conn):
                                         seasonDateString=sea,
                                         league=league)
 
-        api_time = datetime.datetime.now()
+        call_time()
 
         file = fpath + prefix + sea + '.json'
         with open(file, 'w') as fin:
             json.dump(fixtures, fin)
 
-        print('Season {} {} saved.'.format(sea, api_call))
+        print('Season {} {} saved.\n'.format(sea, api_call))

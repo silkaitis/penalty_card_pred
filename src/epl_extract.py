@@ -1,4 +1,5 @@
 import datetime
+import yaml
 
 from xmlsoccer.xmlsoccer import XmlSoccer
 from extract_data_funcs import historic_data, season_builder
@@ -6,7 +7,7 @@ from extract_data_funcs import historic_data, season_builder
 '''
 Load API key and connect
 '''
-with open('key.yaml') as fin:
+with open('src/key.yaml') as fin:
     keys = yaml.load(fin)
 
 xmls = XmlSoccer(api_key=keys['XMLS_key'], use_demo=False)
@@ -18,23 +19,23 @@ EPL = 'English Premier League'
 
 seasons = season_builder(0, 16)
 
-fixture_fpath = '../data/sea_fixtures/'
-table_fpath = '../data/sea_tables/'
+fixture_fpath = 'data/epl_fixtures/'
+table_fpath = 'data/epl_tables/'
 
-'''
-Extract league tables
-'''
-historic_data(league = EPL,
-                season = seasons,
-                fpath = table_fpath,
-                api_call = 'table',
-                api_conn = xmls)
+# '''
+# Extract league tables
+# '''
+# historic_data(league = EPL,
+#                 seasons = seasons,
+#                 fpath = table_fpath,
+#                 api_call = 'table',
+#                 api_conn = xmls)
 
 '''
 Extract league fixtures
 '''
 historic_data(league = EPL,
-                season = seasons,
+                seasons = seasons,
                 fpath = fixture_fpath,
                 api_call = 'fixtures',
                 api_conn = xmls)
