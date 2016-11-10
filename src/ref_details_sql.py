@@ -1,7 +1,7 @@
 import cPickle as pickle
 import psycopg2 as pg2
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pymongo import MongoClient
 from bs4 import BeautifulSoup
 
@@ -24,6 +24,29 @@ def team_name_check(value):
     else:
         return(value)
 
+def find_match_id(hteam, ateam, mdate, con, cur):
+    ldate = mdate - timedelta(days=1)
+    udate = mdate + timedelta(days=1)
+
+    soln = {'hteam': hteam,
+            'ateam': ateam,
+            'ldate': ldate,
+            'udate': udate}
+
+    cur.execute('''
+                SELECT Id
+                FROM fixtures
+                WHERE (HomeTeam = %(hteam)s)
+                AND (AwayTeam = %(ateam)s)
+                AND (date >= %(ldate)s)
+                AND (date < %(udate)s)
+                ''', soln)
+    result = cur.fetchall()
+
+    if result != []:
+        return(result[0][0])
+    else:
+        return(-1)
 '''
 Load team name, team id and ref id conversion dicts
 '''
@@ -53,22 +76,24 @@ cur.execute('''
             CREATE TABLE
             ref_details(id SERIAL PRIMARY KEY,
                         match_date DATE,
-                        h_team TEXT,
-                        h_id INT,
-                        h_score INT,
-                        a_team TEXT,
-                        a_id INT,
-                        a_score INT,
+                        HomeTeam TEXT,
+                        HomeTeam_id INT,
+                        HomeGoals INT,
+                        AwayTeam TEXT,
+                        AwayTeam_Id INT,
+                        AwayGoals INT,
                         single_yellow INT,
                         double_yellow INT,
                         red INT,
                         ref_name TEXT,
-                        ref_id INT);
+                        ref_id INT,
+                        match_id INT);
             ''')
 con.commit()
 
 raw_data = ref_det.find({})
 for data in raw_data:
+    print data['ref_code']
     soup = BeautifulSoup(data['details'], 'html.parser')
 
     match = soup.find_all('td', {'class': 'hell'})
@@ -94,46 +119,52 @@ for data in raw_data:
         double_y = dash_check(match[8 * i + 6].text)
         red = dash_check(match[8 * i + 7].text)
 
+        match_id = find_match_id(h_team, a_team, date, con, cur)
+
         match_det = {'match_date': date,
-                     'h_team': h_team,
-                     'h_id': h_id,
-                     'h_score': h_score,
-                     'a_team': a_team,
-                     'a_id': a_id,
-                     'a_score': a_score,
+                     'HomeTeam': h_team,
+                     'HomeTeam_Id': h_id,
+                     'HomeGoals': h_score,
+                     'AwayTeam': a_team,
+                     'AwayTeam_Id': a_id,
+                     'AwayGoals': a_score,
                      'single_yellow': single_y,
                      'double_yellow': double_y,
                      'red': red,
                      'ref_name': ref_name,
-                     'ref_id': ref_id}
+                     'ref_id': ref_id,
+                     'match_id': match_id}
 
         cur.execute('''
                     INSERT INTO
                     ref_details(match_date,
-                                h_team,
-                                h_id,
-                                h_score,
-                                a_team,
-                                a_id,
-                                a_score,
+                                HomeTeam,
+                                HomeTeam_Id,
+                                HomeGoals,
+                                AwayTeam,
+                                AwayTeam_Id,
+                                AwayGoals,
                                 single_yellow,
                                 double_yellow,
                                 red,
                                 ref_name,
-                                ref_id)
+                                ref_id,
+                                match_id)
                     VALUES
                     (%(match_date)s,
-                     %(h_team)s,
-                     %(h_id)s,
-                     %(h_score)s,
-                     %(a_team)s,
-                     %(a_id)s,
-                     %(a_score)s,
+                     %(HomeTeam)s,
+                     %(HomeTeam_Id)s,
+                     %(HomeGoals)s,
+                     %(AwayTeam)s,
+                     %(AwayTeam_Id)s,
+                     %(AwayGoals)s,
                      %(single_yellow)s,
                      %(double_yellow)s,
                      %(red)s,
                      %(ref_name)s,
-                     %(ref_id)s)
+                     %(ref_id)s,
+                     %(match_id)s)
                     ''', match_det)
 
         con.commit()
+con.close()

@@ -24,10 +24,10 @@ for ref in ref_raw:
         refs[name] = i
         i += 1
 
-with open('ref_code_dict.pkl', 'w') as f:
+with open('data/ref_code_dict.pkl', 'w') as f:
     pickle.dump(ref_codes, f)
 
-with open('ref_id_dict.pkl', 'w') as f:
+with open('data/ref_id_dict.pkl', 'w') as f:
     pickle.dump(refs, f)
 
 ref_sql = []
@@ -58,3 +58,4 @@ cur.executemany('''
                 (%(ref_id)s, %(ref_name)s);
                 ''', ref_sql)
 con.commit()
+con.close()
