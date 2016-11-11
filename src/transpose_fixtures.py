@@ -30,9 +30,10 @@ def team_selector(status, data):
             'HalfTimeGoals',
             'Id',
             'Ref_Id',
-            'Ref']
-    loc = [i + idx * 12 for i in xrange(9)]
-    loc.extend([9, 10 + idx, 21, 22, 23])
+            'Ref',
+            'Season']
+    loc = [i + idx * 12 for i in xrange(9)] #Select upto date
+    loc.extend([9, 10 + idx, 22, 23, 24, 21]) #Add date, halftimegoals, id, ref_id, ref, season
 
     for k, v in zip(keys, loc):
         soln[k] = data[v]
@@ -66,7 +67,8 @@ cur.execute('''
                       Team_Id INT,
                       Ref TEXT,
                       Ref_Id INT,
-                      Loc TEXT)
+                      Loc TEXT,
+                      Season INT)
             ''')
 con.commit()
 
@@ -79,7 +81,9 @@ cur.execute('''
             JOIN ref_details ON ref_details.match_id = fixtures.id;
             ''')
 
-for row in cur.fetchall():
+matches = cur.fetchall()
+
+for row in matches:
     for pos in ['home', 'away']:
         team = team_selector(pos, row)
         cur.execute('''
@@ -98,7 +102,8 @@ for row in cur.fetchall():
                               Team_Id,
                               Ref,
                               Ref_Id,
-                              Loc)
+                              Loc,
+                              Season)
                     VALUES
                     (%(Id)s,
                      %(Date)s,
@@ -114,7 +119,8 @@ for row in cur.fetchall():
                      %(Team_Id)s,
                      %(Ref)s,
                      %(Ref_Id)s,
-                     %(Loc)s);
+                     %(Loc)s,
+                     %(Season)s);
                      ''', team)
         con.commit()
 con.close()

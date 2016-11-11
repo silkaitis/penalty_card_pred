@@ -74,6 +74,7 @@ cur.execute('''
                      HomeTeam TEXT,
                      HomeTeam_Id INT,
                      HomeYellowCards INT,
+                     Season INT,
                      Id INT PRIMARY KEY)
             ''')
 con.commit()
@@ -86,6 +87,9 @@ for fin in files:
 
     print('File: {}'.format(fin))
 
+    loc = fin.find('_') + 1
+    season = fin[loc:loc+2]
+
     for match in matches:
         if match != {}:
             if fin == 'fixtures_0708.json':
@@ -93,7 +97,7 @@ for fin in files:
                 match['HomeFouls'] = -1
                 match['HalfTimeAwayGoals'] = -1
                 match['HalfTimeHomeGoals'] = -1
-
+            match['Season'] = season
             match['AwayTeam'] = name_switch(match['AwayTeam'], name_convert)
             match['HomeTeam'] = name_switch(match['HomeTeam'], name_convert)
             cur.execute('''
@@ -119,6 +123,7 @@ for fin in files:
                                  HomeTeam,
                                  HomeTeam_Id,
                                  HomeYellowCards,
+                                 Season,
                                  Id)
                         VALUES
                         (%(AwayCorners)s,
@@ -142,6 +147,7 @@ for fin in files:
                          %(HomeTeam)s,
                          %(HomeTeam_Id)s,
                          %(HomeYellowCards)s,
+                         %(Season)s,
                          %(Id)s)
                          ''', match)
             con.commit()

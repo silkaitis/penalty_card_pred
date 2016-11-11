@@ -96,7 +96,7 @@ for data in raw_data:
     print data['ref_code']
     soup = BeautifulSoup(data['details'], 'html.parser')
 
-    match = soup.find_all('td', {'class': 'hell'})
+    match = soup.find_all('td', {'class': ['hell', 'dunkel']})
     num_matches = len(match) / 8
 
     ref_name = ref_code[data['ref_code']]
