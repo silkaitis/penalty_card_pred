@@ -8,14 +8,18 @@ def search_backward_sum(start, team_id, data, field, rng):
         - start: starting position in DataFrame (INT)
         - team_id: team id (INT)
         - data: fixture data (DataFrame)
-        - field: DataFrame field in question without
-                    'home' or 'away' included (STR)
+        - field: match metric to sum over (STR)
         - rng: number of matches to sum over (INT)
     Output:
         - soln: sum of field over range (INT)
     '''
-    away = 'away' + field
-    home = 'home' + field
+    if field.find('away') != -1:
+        away = field
+        home = field.replace('away', 'home')
+    elif field.find('home') != -1:
+        away = field.replace('home', 'away')
+        home = field
+
     idx = 0
     soln = 0
     while idx < rng:
@@ -30,6 +34,7 @@ def search_backward_sum(start, team_id, data, field, rng):
         elif (data['hometeam_id'].loc[start] == team_id):
             soln += data[home].loc[start]
             idx += 1
+
         start -= 1
     return(soln)
 
@@ -46,22 +51,39 @@ def base_data_grab(data, base):
         soln.append(data[b])
     return(soln)
 
+def base_roller_params(names):
+    to_drop = [24, 23, 21, 20, 10, 9, 8, 7]
+    for d in to_drop:
+        names.pop(d)
+    return(names)
+
+def roller_type(names, met):
+    return([val + met for val in names])
+
 '''
 Collect Official Team Names (Official as in from EPL website)
 '''
 engine = sqla.create_engine('postgresql+psycopg2://danius@localhost/pen_card')
 df = pd.read_sql_table('fixtures', engine)
 
+'''
+Create lists for organizing data
+'''
 base = ['awayteam_id',
         'awayteam',
         'hometeam_id',
         'hometeam',
         'match_id',
         'date',
-        'season']
-mvg_avg = ['homeyellow_sum',
-           'awayyellow_sum']
-total = base + mvg_avg
+        'season',
+        'awayyellowcards',
+        'awayredcards',
+        'homeyellowcards',
+        'homeredcards']
+
+base_param = base_roller_params(list(df.columns))
+rename_param = roller_type(base_param, '_sum')
+total = base + rename_param
 
 df_sum = pd.DataFrame(columns=total)
 rng = 3
@@ -82,16 +104,19 @@ for j, i in enumerate(xrange(len(df) - 1, -1, -1)):
         sys.stdout.flush()
         step += 1
 
-    a_id = df['awayteam_id'].loc[i]
-    h_id = df['hometeam_id'].loc[i]
-
     row = base_data_grab(df.loc[i], base)
-    row.append(search_backward_sum(i - 1, h_id, df, 'yellowcards', rng))
-    row.append(search_backward_sum(i - 1, a_id, df, 'yellowcards', rng))
+    for item in base_param:
+        if item.find('away') != -1:
+            t_id = df['awayteam_id'].loc[i]
+        elif item.find('home') != -1:
+            t_id = df['hometeam_id'].loc[i]
+
+        row.append(search_backward_sum(i - 1, t_id, df, item, rng))
 
     df_sum.loc[j] = row
-    
+
 sys.stdout.write("-")
 sys.stdout.flush()
 sys.stdout.write("\n")
-print(df_sum.head())
+
+df_sum.to_sql('fixtures_sum', engine)
