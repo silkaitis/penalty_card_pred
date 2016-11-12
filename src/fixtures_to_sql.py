@@ -56,6 +56,7 @@ cur.execute('''
             fixtures(AwayCorners INT,
                      AwayFouls INT,
                      AwayGoals INT,
+                     AwayGoalsAllowed INT,
                      AwayRedCards INT,
                      AwayShots INT,
                      AwayShotsOnTarget INT,
@@ -68,6 +69,7 @@ cur.execute('''
                      HomeCorners INT,
                      HomeFouls INT,
                      HomeGoals INT,
+                     HomeGoalsAllowed INT,
                      HomeRedCards INT,
                      HomeShots INT,
                      HomeShotsOnTarget INT,
@@ -75,7 +77,7 @@ cur.execute('''
                      HomeTeam_Id INT,
                      HomeYellowCards INT,
                      Season INT,
-                     Id INT PRIMARY KEY)
+                     Match_Id INT PRIMARY KEY)
             ''')
 con.commit()
 
@@ -100,11 +102,15 @@ for fin in files:
             match['Season'] = season
             match['AwayTeam'] = name_switch(match['AwayTeam'], name_convert)
             match['HomeTeam'] = name_switch(match['HomeTeam'], name_convert)
+            match['HomeGoalsAllowed'] = match['AwayGoals']
+            match['AwayGoalsAllowed'] = match['HomeGoals']
+            match['Match_Id'] = match['Id']
             cur.execute('''
                         INSERT INTO
                         fixtures(AwayCorners,
                                  AwayFouls,
                                  AwayGoals,
+                                 AwayGoalsAllowed,
                                  AwayRedCards,
                                  AwayShots,
                                  AwayShotsOnTarget,
@@ -117,6 +123,7 @@ for fin in files:
                                  HomeCorners,
                                  HomeFouls,
                                  HomeGoals,
+                                 HomeGoalsAllowed,
                                  HomeRedCards,
                                  HomeShots,
                                  HomeShotsOnTarget,
@@ -124,11 +131,12 @@ for fin in files:
                                  HomeTeam_Id,
                                  HomeYellowCards,
                                  Season,
-                                 Id)
+                                 Match_Id)
                         VALUES
                         (%(AwayCorners)s,
                          %(AwayFouls)s,
                          %(AwayGoals)s,
+                         %(AwayGoalsAllowed)s,
                          %(AwayRedCards)s,
                          %(AwayShots)s,
                          %(AwayShotsOnTarget)s,
@@ -141,6 +149,7 @@ for fin in files:
                          %(HomeCorners)s,
                          %(HomeFouls)s,
                          %(HomeGoals)s,
+                         %(HomeGoalsAllowed)s,
                          %(HomeRedCards)s,
                          %(HomeShots)s,
                          %(HomeShotsOnTarget)s,
@@ -148,7 +157,7 @@ for fin in files:
                          %(HomeTeam_Id)s,
                          %(HomeYellowCards)s,
                          %(Season)s,
-                         %(Id)s)
+                         %(Match_Id)s)
                          ''', match)
             con.commit()
 

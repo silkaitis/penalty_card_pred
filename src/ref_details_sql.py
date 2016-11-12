@@ -34,7 +34,7 @@ def find_match_id(hteam, ateam, mdate, con, cur):
             'udate': udate}
 
     cur.execute('''
-                SELECT Id
+                SELECT Match_Id
                 FROM fixtures
                 WHERE (HomeTeam = %(hteam)s)
                 AND (AwayTeam = %(ateam)s)
@@ -91,7 +91,14 @@ cur.execute('''
             ''')
 con.commit()
 
+'''
+Collect scraped data on refs
+'''
 raw_data = ref_det.find({})
+
+'''
+Iterate through ref data, organize and insert into Postgres
+'''
 for data in raw_data:
     print data['ref_code']
     soup = BeautifulSoup(data['details'], 'html.parser')

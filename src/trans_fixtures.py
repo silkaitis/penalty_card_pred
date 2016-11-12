@@ -14,6 +14,7 @@ for p in ['home', 'away']:
                     SELECT fixtures.{0}corners as corners,
                            fixtures.{0}fouls as fouls,
                            fixtures.{0}goals as goals,
+                           fixtures.{0}goalsallowed as goalsallowed,
                            fixtures.{0}redcards as redcards,
                            fixtures.{0}yellowcards as yellowcards,
                            fixtures.{0}shots as shots,
@@ -21,12 +22,12 @@ for p in ['home', 'away']:
                            fixtures.{0}team as team,
                            fixtures.{0}team_id as team_id,
                            fixtures.season as season,
-                           fixtures.id as id,
+                           fixtures.match_id as match_id,
                            fixtures.date as date,
                            ref_details.ref_name as ref_name,
                            ref_details.ref_id as ref_id
                     FROM fixtures
-                    LEFT JOIN ref_details ON ref_details.match_id = fixtures.id;
+                    LEFT JOIN ref_details ON ref_details.match_id = fixtures.match_id;
                 '''.format(p))
 
     cur.execute('''
