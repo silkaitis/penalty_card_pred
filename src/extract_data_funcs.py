@@ -149,7 +149,7 @@ def ref_store(yr, ref_sum, ref_det):
     Loads ref data into MongoDB
     '''
     base_url = 'http://www.worldfootball.net'
-    
+
     '''
     Scrape referee summary table per season
     '''
@@ -159,7 +159,7 @@ def ref_store(yr, ref_sum, ref_det):
     soup = BeautifulSoup(req.content, 'html.parser')
     table = soup.find_all('table', {'class': 'standard_tabelle'})
 
-    ref_sum.insert_one({'season': str(yr), 'table': str(table[0])})
+    ref_sum.update({'season': str(yr), 'table': str(table[0])})
     print('Season {}'.format(yr))
 
     '''
