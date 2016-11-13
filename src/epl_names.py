@@ -32,7 +32,7 @@ for i, team in enumerate(team_cards):
 '''
 Store team / id dictionary in a pickle
 '''
-with open('team_dict.pkl', 'w') as f:
+with open('team_dict_old.pkl', 'w') as f:
     pickle.dump(teams, f)
 
 '''

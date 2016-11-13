@@ -36,7 +36,7 @@ def rts(tbl_name, n_matches):
     '''
     with open('renamed_params.pkl', 'w') as f:
         pickle.dump(rename_param, f)
-        
+
     '''
     Create empty DataFrame and set moving sum range
     '''
