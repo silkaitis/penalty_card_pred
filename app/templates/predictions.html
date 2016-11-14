@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Penalty Card Prediction</title>
+  <meta name="description" content="Penalty Card Prediction">
+  <meta name="author" content="Danius">
+
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='pred.js') }}">
+  </script>
+
+</head>
+
+<body>
+
+    <h1>Card Predictions</h1>
+  <p>
+    <select id='home_teams' name='home_teams'>
+      <option value='choose_one'>Choose Home Team</option>
+      <option value="arsenal">Arsenal</option>
+      <option value="bournemouth">Bournemouth</option>
+      <option value="burnley">Burnley</option>
+      <option value="chelsea">Chelsea</option>
+      <option value="crystal_palace">Crystal Palace</option>
+      <option value="everton">Everton</option>
+      <option value="hull_city">Hull City</option>
+      <option value="leicester_city">Leicester City</option>
+      <option value="liverpool">Liverpool</option>
+      <option value="manchester_city">Manchester City</option>
+      <option value="manchester_united">Manchester United</option>
+      <option value="middlesbrough">Middlesbrough</option>
+      <option value="southampton">Southampton</option>
+      <option value="stoke_city">Stoke City</option>
+      <option value="sunderland">Sunderland</option>
+      <option value="swansea_city">Swansea City</option>
+      <option value="tottenham_hotspur">Tottenham Hotspur</option>
+      <option value="watford">Watford</option>
+      <option value="west_bromwich_albion">West Bromwich Albion</option>
+      <option value="west_ham_united">West Ham United</option>
+    </select>
+  </p>
+  <p>
+    <select id='away_teams' name='away_teams'>
+      <option value='choose_one'>Choose Away Team</option>
+      <option value="arsenal">Arsenal</option>
+      <option value="bournemouth">Bournemouth</option>
+      <option value="burnley">Burnley</option>
+      <option value="chelsea">Chelsea</option>
+      <option value="crystal_palace">Crystal Palace</option>
+      <option value="everton">Everton</option>
+      <option value="hull_city">Hull City</option>
+      <option value="leicester_city">Leicester City</option>
+      <option value="liverpool">Liverpool</option>
+      <option value="manchester_city">Manchester City</option>
+      <option value="manchester_united">Manchester United</option>
+      <option value="middlesbrough">Middlesbrough</option>
+      <option value="southampton">Southampton</option>
+      <option value="stoke_city">Stoke City</option>
+      <option value="sunderland">Sunderland</option>
+      <option value="swansea_city">Swansea City</option>
+      <option value="tottenham_hotspur">Tottenham Hotspur</option>
+      <option value="watford">Watford</option>
+      <option value="west_bromwich_albion">West Bromwich Albion</option>
+      <option value="west_ham_united">West Ham United</option>
+    </select>
+  </p>
+  <p>
+    <div class="form-group">
+          <button type="button" id="predict" class="btn-primary">Predict!</button>
+    </div>
+  </p>
+  <p>
+    <p> <span id="match_up"></span> </p>
+    <p> <span id="yellows"></span> </p>
+    <p> <span id="reds"></span> </p>
+  </p>
+  <p>
+    <a href='/home'>Home</a>
+    <a href='/league_stats'>League Stats</a>
+  </p>
+
+</body>
+</html>
