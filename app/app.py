@@ -1,7 +1,7 @@
 import psycopg2 as pg2
 
 from flask import Flask, render_template, request, jsonify
-from pred_match import predict_match
+from src.pred_match import predict_match
 
 app = Flask(__name__)
 
