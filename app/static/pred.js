@@ -38,4 +38,18 @@ $(document).ready(function() {
         send_teams(teams);
     })
 
+    $("select#home_teams").change(function() {
+      $('#away_teams').find(':disabled').prop('disabled', false);
+
+      let h_team = $('#home_teams').find(":selected").val()
+      $('#away_teams [value="' + h_team + '"]').prop('disabled', true);
+    })
+
+    $('select#away_teams').change(function() {
+      $('#home_teams').find(':disabled').prop('disabled', false);
+
+      let a_team = $('#away_teams').find(':selected').val()
+      $('#home_teams [value="' + a_team + '"]').prop('disabled', true);
+    })
+
 })

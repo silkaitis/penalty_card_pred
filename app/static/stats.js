@@ -41,4 +41,9 @@ $(document).ready(function() {
         let vars = get_vars();
         send_graph(vars);
     })
+
+    $('select#y_axis').change(function() {
+        let vars = get_vars();
+        send_graph(vars)
+    })
 })
