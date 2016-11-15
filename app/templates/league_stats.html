@@ -6,6 +6,7 @@
   <title>Penalty Card Prediction</title>
   <meta name="description" content="Penalty Card Prediction">
   <meta name="author" content="Danius">
+
   <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}">
   </script>
   <script type="text/javascript" src="{{ url_for('static', filename='stats.js') }}">
@@ -17,18 +18,16 @@
   <h1>League Statistics</h1>
   <p>
     <select id='x_axis' name='x_axis'>
-      <option value='1'>1</option>
-      <option value='1'>2</option>
-      <option value='1'>3</option>
+      <option value='corners'>corners</option>
+      <option value='fouls'>fouls</option>
+      <option value='goals'>goals</option>
     </select>
     <select id='y_axis' name='y_axis'>
-      <option value='1'>1</option>
-      <option value='1'>2</option>
-      <option value='1'>3</option>
+      <option value='corners'>corners</option>
+      <option value='fouls'>fouls</option>
+      <option value='goals'>goals</option>
     </select>
-    <div class="form-group">
-          <button type="button" id="generate" class="btn-primary">Generate</button>
-    </div>
+    <button type="button" id="generate" class="btn-primary">Generate</button>
   </p>
   <p>
     <img id='graph'>
