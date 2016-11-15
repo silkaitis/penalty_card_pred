@@ -1,29 +1,3 @@
-
-// $("#home_teams").change(function() {
-//   if ($(this).data('options') == undefined) {
-//     /*Taking an array of all options-2 and kind of embedding it on the select1*/
-//     $(this).data('options', $('#away_teams option').clone());
-//   }
-//   var id = $(this).val();
-//   var options = $(this).data('options').filter('[value=' + id + ']');
-//   $('#away_teams').html(options);
-// });
-//
-// $(document).ready(function () {
-//     $("home_teams").change(function () {
-//         var val = $(this).val();
-//         if (val == "manchester_united") {
-//             $("away_teams option[value='manchester_united']").remove()}
-//     });
-// });
-//
-// $( "home_teams" ).change(function( event ) {
-//   var target = $( event.target );
-//   $("away_teams option[value='manchester_united']").remove()
-//   }
-// });
-//
-// $("#away_teams option[value='manchester_united']").remove();
 let get_teams = function() {
     let home = $('#home_teams').find(":selected").text()
     let away = $('#away_teams').find(":selected").text();
