@@ -2,6 +2,7 @@ import sqlalchemy as sqla
 import pandas as pd
 import psycopg2 as pg2
 import numpy as np
+import cPickle as pickle
 
 from team_status_funcs import (search_backward,
                                     base_data_grab,
@@ -51,15 +52,17 @@ def rolling_status(df, away_id, home_id):
 def team_history(team_id, loc):
     if loc == 'home':
         t_sel = 'h'
+        col = 'hometeam_id'
     elif loc == 'away':
         t_sel = 'a'
+        col = 'awayteam_id'
 
     con, cur = connect_psql()
     query = '''
             SELECT avg_goals_{0}
-            FROM fixutres_history
-            WHERE team_id = {1}
-            '''.format(t_sel, team_id)
+            FROM fixtures_history
+            WHERE {1} = {2}
+            '''.format(t_sel, col, team_id)
     cur.execute(query)
     data = cur.fetchone()
     con.close()
@@ -87,11 +90,26 @@ def build_match(away, home):
     match_feat.loc[0] = match_raw
     return(match_feat)
 
+def model_load(model):
+    with open(model, 'r') as f:
+        return(pickle.load(f))
+
+def trim_df(df):
+    to_drop = ['match_id',
+                'index',
+                'awayyellowcards',
+                'awayredcards',
+                'homeyellowcards',
+                'homeredcards']
+    return(df.drop(to_drop, axis=1))
+
 def predict_match(away, home):
     match_feat = build_match(away, home)
 
     match_pred = feature_eng(match_feat)
+    match_pred = trim_df(match_pred)
 
-    return(pred)
+    model = model_load('app/model.pkl')
 
-print predict_match('Manchester United', 'Manchester City')
+    pred = model.predict(match_pred)
+    return(pred[0])
