@@ -2,7 +2,7 @@ import sqlalchemy as sqla
 import pandas as pd
 import cPickle as pickle
 
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Lasso
 from sklearn.model_selection import train_test_split
 from feature_eng import feature_eng
 
@@ -27,9 +27,9 @@ X = df_trans.drop(labels, axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-model = RandomForestRegressor(n_jobs = -1)
+model = Lasso(alpha=0.0001)
 model.fit(X_train, y_train)
-print(model.predict(X_test))
+print(model.score(X_test, y_test))
 
 with open('app/model.pkl', 'w') as f:
     pickle.dump(model, f)

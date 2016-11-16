@@ -1,8 +1,10 @@
 let get_teams = function() {
     let home = $('#home_teams').find(":selected").text()
-    let away = $('#away_teams').find(":selected").text();
+    let away = $('#away_teams').find(":selected").text()
+    let ref = $('#referee').find(":selected").val();
     return {'home': home,
-            'away': away}
+            'away': away,
+            'ref': ref}
 };
 
 let send_teams = function(coefficients) {

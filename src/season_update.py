@@ -24,13 +24,20 @@ fixture_fpath = 'data/epl_fixtures/'
 table_fpath = 'data/epl_tables/'
 
 '''
-Extract league tables
+Scrape ref data
 '''
-historic_data(league = EPL,
-                seasons = seasons,
-                fpath = table_fpath,
-                api_call = 'table',
-                api_conn = xmls)
+client = MongoClient()
+client.drop_database('penalty_card_pred')
+
+db = client['penalty_card_pred']
+ref_sum = db['ref_season_summary']
+ref_det = db['ref_season_detail']
+
+yr = range(2000, 2017)
+for y in yr:
+    ref_store(y, ref_sum, ref_det)
+
+client.close()
 
 '''
 Extract league fixtures
@@ -42,13 +49,10 @@ historic_data(league = EPL,
                 api_conn = xmls)
 
 '''
-Scrape ref data
+Extract league tables
 '''
-client = MongoClient()
-db = client['penalty_card_pred']
-ref_sum = db['ref_season_summary']
-ref_det = db['ref_season_detail']
-
-ref_store(2016, ref_sum, ref_det)
-
-client.close()
+historic_data(league = EPL,
+seasons = seasons,
+fpath = table_fpath,
+api_call = 'table',
+api_conn = xmls)

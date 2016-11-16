@@ -1,6 +1,7 @@
 import StringIO
 import base64
 
+import cPickle as pickle
 import psycopg2 as pg2
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -24,10 +25,16 @@ def predictions():
 @app.route('/pred', methods=['POST'])
 def match():
     teams = request.json
-    home, away = teams['home'], teams['away']
-    pred = predict_match(away, home)
+    home, away, ref = teams['home'], teams['away'], teams['ref']
+
+    match = predict_match(away, home, int(ref))
+    match.fillna(value=0, inplace=True)
+
+    pred = model.predict(match)
+    pred = pred[0]
+
     return jsonify({'home': home,
-                    'home_yellow': pred[2],
+                    'home_yellow': round(pred[2], 2),
                     'home_red': pred[3],
                     'away': away,
                     'away_yellow': pred[0],
@@ -61,4 +68,7 @@ def graph():
 
 
 if __name__ == '__main__':
+    with open('model.pkl') as f:
+        model = pickle.load(f)
+
     app.run(host='0.0.0.0', port='8081', threaded=True)

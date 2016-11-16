@@ -83,6 +83,8 @@ con.commit()
 
 dir = 'data/epl_fixtures/'
 files = os.listdir(dir)
+#Fouls and half time goals are missing, so season is removed
+files.remove('fixtures_0708.json')
 for fin in files:
     with open(dir + fin, 'r') as f:
         matches = json.load(f)

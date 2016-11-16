@@ -7,11 +7,12 @@ ALTER TABLE temp_history
 DROP COLUMN hometeam_id,
 DROP COLUMN team_h,
 DROP COLUMN awayteam_id,
-DROP COLUMN team_a;
+DROP COLUMN team_a,
+DROP COLUMN ref_id;
 
 CREATE TEMPORARY TABLE temp_sum AS
 SELECT *
-FROM fixtures_sum;
+FROM fixtures_avg;
 
 ALTER TABLE temp_sum
 DROP COLUMN awayteam_id,
