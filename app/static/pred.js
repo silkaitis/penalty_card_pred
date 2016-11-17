@@ -13,7 +13,6 @@ let send_teams = function(coefficients) {
         contentType: "application/json; charset=utf-8",
         type: 'POST',
         success: function (data) {
-            match_up(data)
             display_teams(data)
             display_yellows(data)
             display_reds(data);
@@ -21,13 +20,12 @@ let send_teams = function(coefficients) {
         data: JSON.stringify(coefficients)
     });
 };
-let match_up = function(soln) {
-  $("span#match_up").html(soln.home + ' versus ' + soln.away)
-};
 
 let display_teams = function(soln) {
+  let ref = $('#referee').find(':selected').text()
   $("span#hometeam").html(soln.home)
   $("span#awayteam").html(soln.away)
+  $("span#referee").html(ref)
 }
 let display_yellows = function(soln) {
     $("span#home_yellow").html(soln.home_yellow)

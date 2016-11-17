@@ -105,25 +105,25 @@
           <tr class='text-center'>
             <td colspan=2>
               <select id='referee' name='referee'>
-            <option value='choose_one'>Choose Referee</option>
-            <option value="131">Andre Marriner</option>
-            <option value="141">Anthony Taylor</option>
-            <option value="147">Craig Pawson</option>
-            <option value="148">Graham Scott</option>
-            <option value="143">Jonathan Moss</option>
-            <option value="140">Kevin Friend</option>
-            <option value="134">Lee Mason</option>
-            <option value="129">Mark Clattenburg</option>
-            <option value="130">Martin Atkinson</option>
-            <option value="142">Michael Oliver</option>
-            <option value="111">Mike Dean</option>
-            <option value="138">Mike Jones</option>
-            <option value="144">Neil Swarbrick</option>
-            <option value="149">Paul Tierney</option>
-            <option value="146">Robert Madley</option>
-            <option value="145">Roger East</option>
-            <option value="139">Stuart Attwell</option>
-          </select>
+                <option value='choose_one'>Choose Referee</option>
+                <option value="131">Andre Marriner</option>
+                <option value="141">Anthony Taylor</option>
+                <option value="147">Craig Pawson</option>
+                <option value="148">Graham Scott</option>
+                <option value="143">Jonathan Moss</option>
+                <option value="140">Kevin Friend</option>
+                <option value="134">Lee Mason</option>
+                <option value="129">Mark Clattenburg</option>
+                <option value="130">Martin Atkinson</option>
+                <option value="142">Michael Oliver</option>
+                <option value="111">Mike Dean</option>
+                <option value="138">Mike Jones</option>
+                <option value="144">Neil Swarbrick</option>
+                <option value="149">Paul Tierney</option>
+                <option value="146">Robert Madley</option>
+                <option value="145">Roger East</option>
+                <option value="139">Stuart Attwell</option>
+              </select>
             </td>
           </tr>
           <tr><td></td></tr>
@@ -143,22 +143,27 @@
     <div class='panel-body'>
       <table class='table'>
         <thead>
-          <tr class='text-center'>
-            <th class='text-center'></th>
-            <th class='text-center'><span id='hometeam'>Home</span></th>
-            <th class='text-center'><span id='awayteam'>Away</span></th>
+          <tr>
+            <th class='text-center'>Referee</th>
+            <th class='text-center'>Home</th>
+            <th class='text-center'>Away</th>
           </tr>
         </thead>
         <tbody>
-          <tr class='warning text-center'>
-            <td>Yellow Card</td>
-            <td><span id="home_yellow"></span></td>
-            <td><span id="away_yellow"></span></td>
+          <tr>
+            <td class='text-center'><span id='referee'></span></td>
+            <td class='text-center'><span id='hometeam'></span></td>
+            <td class='text-center'><span id='awayteam'></span></td>
           </tr>
-          <tr class='danger text-center'>
-            <td>Red Card</td>
-            <td><span id="home_red"></span></td>
-            <td><span id="away_red"></span></td>
+          <tr class='warning'>
+            <td class='text-center'>Yellow Card</td>
+            <td class='text-center'><span id="home_yellow"></span></td>
+            <td class='text-center'><span id="away_yellow"></span></td>
+          </tr>
+          <tr class='danger'>
+            <td class='text-center'>Red Card</td>
+            <td class='text-center'><span id="home_red"></span></td>
+            <td class='text-center'><span id="away_red"></span></td>
           </tr>
         </tbody>
       </table>

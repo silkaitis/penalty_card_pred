@@ -52,13 +52,17 @@ def graph():
     df = load_df('trans_fix')
 
     img = StringIO.StringIO()
-    import pdb; pdb.set_trace()
+
     plt.figure()
-    hmap = sns.heatmap(pd.pivot_table(df,
-                                        columns=vars['x'],
-                                        index=vars['y'],
-                                        values='yellowcards',
-                                        aggfunc=np.mean))
+    p_table = pd.pivot_table(df,
+                             columns=vars['x'],
+                             index=vars['y'],
+                             values=vars['v'],
+                             aggfunc='mean')
+    hmap = sns.heatmap(p_table.sort_index(ascending = False))
+    hmap.set_title('Average ' + vars['vn'])
+    hmap.set_xlabel(vars['xn'])
+    hmap.set_ylabel(vars['yn'])
     fig = hmap.get_figure()
     fig.savefig(img, format='png')
     img.seek(0)
@@ -71,7 +75,7 @@ def clean_up(data):
     soln = []
     for val in data:
         if val < 0:
-            soln.append(0)
+            soln.append(0.00)
         else:
             soln.append(round(val, 2))
     return(soln)
