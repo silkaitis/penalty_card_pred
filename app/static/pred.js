@@ -14,6 +14,7 @@ let send_teams = function(coefficients) {
         type: 'POST',
         success: function (data) {
             match_up(data)
+            display_teams(data)
             display_yellows(data)
             display_reds(data);
         },
@@ -24,12 +25,18 @@ let match_up = function(soln) {
   $("span#match_up").html(soln.home + ' versus ' + soln.away)
 };
 
+let display_teams = function(soln) {
+  $("span#hometeam").html(soln.home)
+  $("span#awayteam").html(soln.away)
+}
 let display_yellows = function(soln) {
-    $("span#yellows").html('Yellows: ' + soln.home_yellow + ' - ' + soln.away_yellow)
+    $("span#home_yellow").html(soln.home_yellow)
+    $("span#away_yellow").html(soln.away_yellow)
 };
 
 let display_reds = function(soln) {
-    $("span#reds").html('Reds: ' + soln.home_red + ' - ' + soln.away_red)
+    $("span#home_red").html(soln.home_red)
+    $("span#away_red").html(soln.away_red)
 };
 
 

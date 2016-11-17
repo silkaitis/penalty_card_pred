@@ -18,9 +18,9 @@ app = Flask(__name__)
 def index():
     return render_template('home.html')
 
-@app.route('/predictions', methods=['GET'])
-def predictions():
-    return render_template('predictions.html')
+@app.route('/author', methods=['GET'])
+def author():
+    return render_template('author.html')
 
 @app.route('/pred', methods=['POST'])
 def match():
@@ -31,10 +31,11 @@ def match():
     match.fillna(value=0, inplace=True)
 
     pred = model.predict(match)
-    pred = pred[0]
+
+    pred = clean_up(pred[0])
 
     return jsonify({'home': home,
-                    'home_yellow': round(pred[2], 2),
+                    'home_yellow': pred[2],
                     'home_red': pred[3],
                     'away': away,
                     'away_yellow': pred[0],
@@ -51,7 +52,7 @@ def graph():
     df = load_df('trans_fix')
 
     img = StringIO.StringIO()
-
+    import pdb; pdb.set_trace()
     plt.figure()
     hmap = sns.heatmap(pd.pivot_table(df,
                                         columns=vars['x'],
@@ -66,6 +67,14 @@ def graph():
     plot_binary = 'data:image/png;base64, ' + binary
     return plot_binary
 
+def clean_up(data):
+    soln = []
+    for val in data:
+        if val < 0:
+            soln.append(0)
+        else:
+            soln.append(round(val, 2))
+    return(soln)
 
 if __name__ == '__main__':
     with open('model.pkl') as f:

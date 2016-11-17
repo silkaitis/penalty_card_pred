@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -6,15 +7,163 @@
   <meta name="description" content="Penalty Card Prediction">
   <meta name="author" content="Danius">
 
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='pred.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}">
+  </script>
+  <link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.css') }}">
+
 </head>
 
 <body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Penalty Card Prediction</a>
+    </div>
 
-    <h1>Penalty Card Prediction</h1>
-    <p>This app predicts the number of penalty cards
-      for the home and away team in the English Premier League</p>
-    <a href='/predictions'>Card Predictions</a>
-    <a href='/league_stats'>League Stats</a>
+    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2" aria-expanded="false" style="height: 1px;">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href='/'>Card Predictions</a></li>
+        <li><a href='/league_stats'>League Stats</a></li>
+        <li><a href='/author'>Author</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
+<div class='container theme-showcase' role='main'>
+  <div class='panel panel-primary'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>Match-up</h3>
+    </div>
+    <div class='panel-body'>
+      <table class='table'>
+        <tbody>
+          <tr class='text-center'>
+            <td>
+              <select id='home_teams' name='home_teams'>
+                <option value='choose_one'>Choose Home Team</option>
+                <option value="arsenal">Arsenal</option>
+                <option value="bournemouth">Bournemouth</option>
+                <option value="burnley">Burnley</option>
+                <option value="chelsea">Chelsea</option>
+                <option value="crystal_palace">Crystal Palace</option>
+                <option value="everton">Everton</option>
+                <option value="hull_city">Hull City</option>
+                <option value="leicester_city">Leicester City</option>
+                <option value="liverpool">Liverpool</option>
+                <option value="manchester_city">Manchester City</option>
+                <option value="manchester_united">Manchester United</option>
+                <option value="middlesbrough">Middlesbrough</option>
+                <option value="southampton">Southampton</option>
+                <option value="stoke_city">Stoke City</option>
+                <option value="sunderland">Sunderland</option>
+                <option value="swansea_city">Swansea City</option>
+                <option value="tottenham_hotspur">Tottenham Hotspur</option>
+                <option value="watford">Watford</option>
+                <option value="west_bromwich_albion">West Bromwich Albion</option>
+                <option value="west_ham_united">West Ham United</option>
+              </select>
+            </td>
+            <td>
+              <select id='away_teams' name='away_teams'>
+                <option value='choose_one'>Choose Away Team</option>
+                <option value="arsenal">Arsenal</option>
+                <option value="bournemouth">Bournemouth</option>
+                <option value="burnley">Burnley</option>
+                <option value="chelsea">Chelsea</option>
+                <option value="crystal_palace">Crystal Palace</option>
+                <option value="everton">Everton</option>
+                <option value="hull_city">Hull City</option>
+                <option value="leicester_city">Leicester City</option>
+                <option value="liverpool">Liverpool</option>
+                <option value="manchester_city">Manchester City</option>
+                <option value="manchester_united">Manchester United</option>
+                <option value="middlesbrough">Middlesbrough</option>
+                <option value="southampton">Southampton</option>
+                <option value="stoke_city">Stoke City</option>
+                <option value="sunderland">Sunderland</option>
+                <option value="swansea_city">Swansea City</option>
+                <option value="tottenham_hotspur">Tottenham Hotspur</option>
+                <option value="watford">Watford</option>
+                <option value="west_bromwich_albion">West Bromwich Albion</option>
+                <option value="west_ham_united">West Ham United</option>
+              </select>
+            </td>
+          </tr>
+          <tr><td></td></tr>
+          <tr class='text-center'>
+            <td colspan=2>
+              <select id='referee' name='referee'>
+            <option value='choose_one'>Choose Referee</option>
+            <option value="131">Andre Marriner</option>
+            <option value="141">Anthony Taylor</option>
+            <option value="147">Craig Pawson</option>
+            <option value="148">Graham Scott</option>
+            <option value="143">Jonathan Moss</option>
+            <option value="140">Kevin Friend</option>
+            <option value="134">Lee Mason</option>
+            <option value="129">Mark Clattenburg</option>
+            <option value="130">Martin Atkinson</option>
+            <option value="142">Michael Oliver</option>
+            <option value="111">Mike Dean</option>
+            <option value="138">Mike Jones</option>
+            <option value="144">Neil Swarbrick</option>
+            <option value="149">Paul Tierney</option>
+            <option value="146">Robert Madley</option>
+            <option value="145">Roger East</option>
+            <option value="139">Stuart Attwell</option>
+          </select>
+            </td>
+          </tr>
+          <tr><td></td></tr>
+          <tr class='text-center'>
+            <td colspan=2>
+                <button type="button" id="predict" class="btn-primary">Predict!</button>
+            </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class='panel panel-success'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>Card Predictions</h3>
+    </div>
+    <div class='panel-body'>
+      <table class='table'>
+        <thead>
+          <tr class='text-center'>
+            <th class='text-center'></th>
+            <th class='text-center'><span id='hometeam'>Home</span></th>
+            <th class='text-center'><span id='awayteam'>Away</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class='warning text-center'>
+            <td>Yellow Card</td>
+            <td><span id="home_yellow"></span></td>
+            <td><span id="away_yellow"></span></td>
+          </tr>
+          <tr class='danger text-center'>
+            <td>Red Card</td>
+            <td><span id="home_red"></span></td>
+            <td><span id="away_red"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>

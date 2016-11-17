@@ -1,6 +1,6 @@
 let get_vars = function() {
-    let x_axis = $('#x_axis').find(":selected").text()
-    let y_axis = $('#y_axis').find(":selected").text();
+    let x_axis = $('#x_axis').find(":selected").val()
+    let y_axis = $('#y_axis').find(":selected").val();
     return {'x': x_axis,
             'y': y_axis}
 };
@@ -17,19 +17,6 @@ let send_graph = function(coefficients) {
     });
 };
 
-// let match_up = function(soln) {
-//   $("span#match_up").html(soln.home + ' versus ' + soln.away)
-// };
-//
-// let display_yellows = function(soln) {
-//     $("span#yellows").html('Yellows: ' + soln.home_yellow + ' - ' + soln.away_yellow)
-// };
-//
-// let display_reds = function(soln) {
-//     $("span#reds").html('Reds: ' + soln.home_red + ' - ' + soln.away_red)
-// };
-
-
 $(document).ready(function() {
 
     $("button#generate").click(function() {
@@ -38,12 +25,17 @@ $(document).ready(function() {
     })
 
     $('select#x_axis').change(function() {
-        let vars = get_vars();
-        send_graph(vars);
+      $('#y_axis').find(':disabled').prop('disabled', false);
+
+      let a_team = $('#x_axis').find(':selected').val()
+      $('#y_axis [value="' + a_team + '"]').prop('disabled', true);
     })
 
     $('select#y_axis').change(function() {
-        let vars = get_vars();
-        send_graph(vars)
+      $('#x_axis').find(':disabled').prop('disabled', false);
+
+      let a_team = $('#y_axis').find(':selected').val()
+      $('#x_axis [value="' + a_team + '"]').prop('disabled', true);
     })
+
 })

@@ -11,31 +11,83 @@
   </script>
   <script type="text/javascript" src="{{ url_for('static', filename='stats.js') }}">
   </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}">
+  </script>
+  <link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.css') }}">
 </head>
 
 <body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Penalty Card Prediction</a>
+    </div>
 
-  <h1>League Statistics</h1>
-  <p>
-    <select id='x_axis' name='x_axis'>
-      <option value='corners'>corners</option>
-      <option value='fouls'>fouls</option>
-      <option value='goals'>goals</option>
-    </select>
-    <select id='y_axis' name='y_axis'>
-      <option value='corners'>corners</option>
-      <option value='fouls'>fouls</option>
-      <option value='goals'>goals</option>
-    </select>
-    <button type="button" id="generate" class="btn-primary">Generate</button>
-  </p>
-  <p>
-    <img id='graph'>
-  </p>
-  <p>
-    <a href='/predictions'>Card Predictions</a>
-    <a href='/'>Home</a>
-  </p>
+    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2" aria-expanded="false" style="height: 1px;">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href='/'>Card Predictions</a></li>
+        <li><a href='/league_stats'>League Stats</a></li>
+        <li><a href='/author'>Author</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
+<div class='container theme-showcase' role='main'>
+  <div class='panel panel-primary'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>League Heatmap</h3>
+    </div>
+    <div class='panel-body'>
+      <table class='table'>
+        <thead>
+          <tr class='text-center'>
+            <th class='text-center'>X-Axis</th>
+            <th class='text-center'><span id='hometeam'>Y-Axis</span></th>
+            <th class='text-center'><span id='awayteam'>Aggregated Variable</span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class='text-center'>
+            <td>
+              <select id='x_axis' name='x_axis'>
+                <option value='corners'>Corners</option>
+                <option value='fouls'>Fouls</option>
+                <option value='goals'>Goals</option>
+              </select>
+            </td>
+            <td>
+              <select id='y_axis' name='y_axis'>
+                <option value='corners'>Corners</option>
+                <option value='fouls'>Fouls</option>
+                <option value='goals'>Goals</option>
+              </select>
+            </td>
+            <td>
+              <select id='agg_var' name='agg_var'>
+                <option value='corners'>corners</option>
+                <option value='fouls'>fouls</option>
+                <option value='goals'>goals</option>
+              </select>
+            </td>
+            <td>
+              <button type="button" id="generate" class="btn-primary">Generate</button>
+            </td>
+          </tr>
+          <tr class='text-center'>
+            <td colspan=4>
+              <img id='graph'>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 </body>
 </html>
