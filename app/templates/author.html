@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Penalty Card Prediction</title>
+  <meta name="description" content="Penalty Card Prediction">
+  <meta name="author" content="Danius">
+
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='pred.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}">
+  </script>
+  <link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.css') }}">
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Penalty Card Prediction</a>
+    </div>
+
+    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2" aria-expanded="false" style="height: 1px;">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href='/'>Card Predictions</a></li>
+        <li><a href='/league_stats'>League Stats</a></li>
+        <li><a href='/author'>Author</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container theme-showcase">
+ <div class="page-header">
+  <h2 class="cover-heading">
+   About the Author
+ </h2>
+ </div>
+ <div class="page-header">
+    <div class="row">
+     <div class="col-md-6">
+
+      <div class="panel panel-success">
+       <div class="panel-heading">
+        <h3 class="panel-title">
+         Danius Silkaitis
+        </h3>
+       </div>
+       <div class="panel-body">
+        <p>
+          Stuff about me
+        </p>
+       </div>
+      </div>
+     </div>
+
+     <div class="col-md-6">
+
+      <div class="panel panel-info">
+       <div class="panel-heading">
+        <h3 class="panel-title">
+         Contact
+        </h3>
+       </div>
+       <div class="panel-body">
+         <table class='table'>
+           <tbody>
+             <tr class='text-center'>
+               <td>
+                 <a href="https://www.linkedin.com/in/daniussilkaitis">
+                   <img src='../static/Logo-2C-34px-R.png'></img>
+                 </a>
+               </td>
+             </tr>
+             <tr class='text-center'>
+               <td>
+                 <a href="https://github.com/silkaitis">
+                   <img src='../static/GitHub_Logo.png' width='150'></img>
+                 </a>
+               </td>
+             </tr>
+             <tr class='text-center'>
+               <td>
+                 <a href='mailto:danius.silkaitis.com' class='btn btn-info'>
+                   Email
+                 </a>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
