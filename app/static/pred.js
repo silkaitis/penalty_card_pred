@@ -1,6 +1,6 @@
 let get_teams = function() {
-    let home = $('#home_teams').find(":selected").text()
-    let away = $('#away_teams').find(":selected").text()
+    let home = $('#home_teams').find(":selected").val()
+    let away = $('#away_teams').find(":selected").val()
     let ref = $('#referee').find(":selected").val();
     return {'home': home,
             'away': away,
@@ -22,9 +22,11 @@ let send_teams = function(coefficients) {
 };
 
 let display_teams = function(soln) {
-  let ref = $('#referee').find(':selected').text()
-  $("span#hometeam").html(soln.home)
-  $("span#awayteam").html(soln.away)
+  let home = $('#home_teams').find(":selected").text()
+  let away = $('#away_teams').find(":selected").text()
+  let ref = $('#referee').find(":selected").text();
+  $("span#hometeam").html(home)
+  $("span#awayteam").html(away)
   $("span#referee").html(ref)
 }
 let display_yellows = function(soln) {

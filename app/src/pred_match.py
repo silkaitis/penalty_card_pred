@@ -18,16 +18,6 @@ def connect_psql():
     cur = con.cursor()
     return(con, cur)
 
-def sql_id(name):
-    con, cur = connect_psql()
-    query = '''SELECT team_id
-                FROM team_code
-                WHERE name = '{}';'''.format(name)
-    cur.execute(query)
-    team_id = cur.fetchone()[0]
-    con.close()
-    return(team_id)
-
 def load_df(tbl_name):
     engine = sqla.create_engine('postgresql+psycopg2://danius@localhost/pen_card')
     return(pd.read_sql_table(tbl_name, engine))
@@ -86,23 +76,22 @@ def teams_not_paired(home_id, away_id, df):
     data[labels] = d_temp[labels]
     return(data)
 
-def team_history(home_id, away_id, ref):
-    df = load_df('fixtures_history')
+def team_history(home_id, away_id, ref, df_hist):
+    data = df_hist[(df_hist.hometeam_id == home_id)
+                & (df_hist.awayteam_id == away_id)]
 
-    data = df[(df.hometeam_id == home_id)
-                & (df.awayteam_id == away_id)]
     if len(data) == 0:
-        data = teams_not_paired(home_id, away_id, df)
-        data = update_ref(home_id, ref, df, data, 'home')
-        data = update_ref(away_id, ref, df, data, 'away')
+        data = teams_not_paired(home_id, away_id, df_hist)
+        data = update_ref(home_id, ref, df_hist, data, 'home')
+        data = update_ref(away_id, ref, df_hist, data, 'away')
         data.drop(['match_id',
                     'ref_id',
                     'hometeam_id',
                     'awayteam_id'], inplace=True)
     else:
         data = data.iloc[0]
-        data = update_ref(home_id, ref, df, data, 'home')
-        data = update_ref(away_id, ref, df, data, 'away')
+        data = update_ref(home_id, ref, df_hist, data, 'home')
+        data = update_ref(away_id, ref, df_hist, data, 'away')
         data.drop(['match_id',
                     'ref_id',
                     'hometeam_id',
@@ -111,7 +100,7 @@ def team_history(home_id, away_id, ref):
                     'team_a'], inplace=True)
     return(data)
 
-def build_match(away, home, ref):
+def build_match(away_id, home_id, ref, df_hist, df_full, df_bt):
     '''
     Input:
         - away: away team name (STR)
@@ -119,17 +108,11 @@ def build_match(away, home, ref):
     Output:
         - soln: prediction array (LIST)
     '''
-    df = load_df('fixtures_full')
 
-    away_id = sql_id(away)
-    home_id = sql_id(home)
+    match_raw = rolling_status(df_full, away_id, home_id, ref)
+    match_raw = np.append(match_raw, team_history(home_id, away_id, ref, df_hist))
 
-    match_raw = rolling_status(df, away_id, home_id, ref)
-    match_raw = np.append(match_raw, team_history(home_id, away_id, ref))
-
-    df = load_df('base_table')
-
-    match_feat = pd.DataFrame(columns=df.columns)
+    match_feat = pd.DataFrame(columns=df_bt.columns)
     match_feat.loc[0] = match_raw
     return(match_feat)
 
@@ -146,8 +129,8 @@ def trim_df(df):
                 'homeredcards']
     return(df.drop(to_drop, axis=1))
 
-def predict_match(away, home, ref):
-    match_feat = build_match(away, home, ref)
+def predict_match(away, home, ref, df_hist, df_full, df_bt):
+    match_feat = build_match(away, home, ref, df_hist, df_full, df_bt)
     match_pred = feature_eng(match_feat)
     match_pred = trim_df(match_pred)
 

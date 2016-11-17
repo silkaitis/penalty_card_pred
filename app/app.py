@@ -27,7 +27,12 @@ def match():
     teams = request.json
     home, away, ref = teams['home'], teams['away'], teams['ref']
 
-    match = predict_match(away, home, int(ref))
+    match = predict_match(int(away),
+                          int(home),
+                          int(ref),
+                          df_hist,
+                          df_full,
+                          df_bt)
     match.fillna(value=0, inplace=True)
 
     pred = model.predict(match)
@@ -49,12 +54,10 @@ def league_stats():
 def graph():
     vars = request.json
 
-    df = load_df('trans_fix')
-
     img = StringIO.StringIO()
 
     plt.figure()
-    p_table = pd.pivot_table(df,
+    p_table = pd.pivot_table(df_trans,
                              columns=vars['x'],
                              index=vars['y'],
                              values=vars['v'],
@@ -83,5 +86,10 @@ def clean_up(data):
 if __name__ == '__main__':
     with open('model.pkl') as f:
         model = pickle.load(f)
+
+    df_hist = load_df('fixtures_history')
+    df_full = load_df('fixtures_full')
+    df_bt = load_df('base_table')
+    df_trans = load_df('trans_fix')
 
     app.run(host='0.0.0.0', port='8081', threaded=True)
