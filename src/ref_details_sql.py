@@ -11,7 +11,7 @@ def pickler_load(filename):
     return(soln)
 
 def dash_check(value):
-    if value != '-':
+    if '-' not in value:
         return(int(value))
     else:
         return(0)
@@ -119,8 +119,8 @@ for data in raw_data:
         a_id = team_id[a_team]
 
         score = match[8 * i + 4].text.split(':')
-        h_score = int(score[0])
-        a_score = int(score[1])
+        h_score = dash_check(score[0])
+        a_score = dash_check(score[1])
 
         single_y = dash_check(match[8 * i + 5].text)
         double_y = dash_check(match[8 * i + 6].text)

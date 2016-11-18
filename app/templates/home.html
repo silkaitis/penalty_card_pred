@@ -42,6 +42,20 @@
 </nav>
 
 <div class='container theme-showcase' role='main'>
+  <div class='panel panel-info'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>App Summary</h3>
+    </div>
+    <div class='panel-body'>
+      <p class='lead'>
+        This app predicts the number of yellow and
+          red cards in a match based upon the referee,
+          home and away team. The app was built for the
+          current 2016 / 2017 English Premier League
+          season.
+      </p>
+    </div>
+  </div>
   <div class='panel panel-primary'>
     <div class='panel-heading'>
       <h3 class='panel-title'>Match-up</h3>
@@ -151,19 +165,19 @@
         </thead>
         <tbody>
           <tr>
-            <td class='text-center'><span id='referee'></span></td>
-            <td class='text-center'><span id='hometeam'></span></td>
-            <td class='text-center'><span id='awayteam'></span></td>
+            <td class='text-center col-md-4'><span id='referee'></span></td>
+            <td class='text-center col-md-4'><span id='hometeam'></span></td>
+            <td class='text-center col-md-4'><span id='awayteam'></span></td>
           </tr>
           <tr class='warning'>
-            <td class='text-center'>Yellow Card</td>
-            <td class='text-center'><span id="home_yellow"></span></td>
-            <td class='text-center'><span id="away_yellow"></span></td>
+            <td class='text-center col-md-4'>Yellow Card</td>
+            <td class='text-center col-md-4'><span id="home_yellow"></span></td>
+            <td class='text-center col-md-4'><span id="away_yellow"></span></td>
           </tr>
           <tr class='danger'>
-            <td class='text-center'>Red Card</td>
-            <td class='text-center'><span id="home_red"></span></td>
-            <td class='text-center'><span id="away_red"></span></td>
+            <td class='text-center col-md-4'>Red Card</td>
+            <td class='text-center col-md-4'><span id="home_red"></span></td>
+            <td class='text-center col-md-4'><span id="away_red"></span></td>
           </tr>
         </tbody>
       </table>
