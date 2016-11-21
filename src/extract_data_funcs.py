@@ -159,7 +159,11 @@ def ref_store(yr, ref_sum, ref_det):
     soup = BeautifulSoup(req.content, 'html.parser')
     table = soup.find_all('table', {'class': 'standard_tabelle'})
 
-    ref_sum.insert_one({'season': str(yr), 'table': str(table[0])})
+    doc = ref_sum.find_one({'season': str(yr)}, {'_id': 1})
+    if bool(doc):
+        ref_sum.update_one(doc, {'$set': {'season': str(yr), 'table': str(table[0])}}, upsert=True)
+    else:
+        ref_sum.insert_one({'season': str(yr), 'table': str(table[0])})
     print('Season {}'.format(yr))
 
     '''
@@ -177,4 +181,8 @@ def ref_store(yr, ref_sum, ref_det):
             soup_ref = BeautifulSoup(req_detail.content, 'html.parser')
             ref_table = soup_ref.find_all('table', {'class': 'standard_tabelle'})
 
-            ref_det.insert_one({'ref_code': ref_code, 'details': str(ref_table[0])})
+            doc = ref_det.find_one({'ref_code': ref_code}, {'_id': 1})
+            if bool(doc):
+                ref_det.update(doc, {'$set': {'ref_code': ref_code, 'details': str(ref_table[0])}}, upsert=True)
+            else:
+                ref_det.insert_one({'ref_code': ref_code, 'details': str(ref_table[0])})
