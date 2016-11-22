@@ -41,7 +41,7 @@
 </nav>
 
 <div class='container theme-showcase' role='main'>
-  <div class='panel panel-primary'>
+  <div class='panel panel-primary' style='width: 950px;'>
     <div class='panel-heading'>
       <h3 class='panel-title'>League Heatmap</h3>
     </div>
@@ -51,7 +51,7 @@
           <tr class='text-center'>
             <th class='text-center'>X-Axis</th>
             <th class='text-center'><span id='hometeam'>Y-Axis</span></th>
-            <th class='text-center'><span id='awayteam'>Aggregated Variable</span></th>
+            <th class='text-center'><span id='awayteam'>Aggregated Metric</span></th>
             <th></th>
           </tr>
         </thead>
@@ -107,5 +107,76 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class='panel panel-primary' style='width: 950px;'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>Team Comparisons</h3>
+    </div>
+    <div class='panel-body'>
+      <table class='table'>
+        <thead>
+          <tr class='text-center'>
+            <th class='text-center'>Sorted Metric</th>
+            <th class='text-center'>First Metric</th>
+            <th class='text-center'>Second Metric</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class='text-center'>
+            <td>
+              <select id='tc_sort' name='tc_sort'>
+                <option value='choose'>Choose One</option>
+                <option value='corners'>Corners</option>
+                <option value='fouls'>Fouls</option>
+                <option value='goals'>Goals</option>
+                <option value='goalsallowed'>Goals Allowed</option>
+                <option value='redcards'>Red Cards</option>
+                <option value='shots'>Shots</option>
+                <option value='shotsontarget'>Shots on Target</option>
+                <option value='yellowcards'>Yellow Cards</option>
+              </select>
+            </td>
+            <td>
+              <select id='tc_f' name='tc_f'>
+                <option value='choose'>Choose One</option>
+                <option value='corners'>Corners</option>
+                <option value='fouls'>Fouls</option>
+                <option value='goals'>Goals</option>
+                <option value='goalsallowed'>Goals Allowed</option>
+                <option value='redcards'>Red Cards</option>
+                <option value='shots'>Shots</option>
+                <option value='shotsontarget'>Shots on Target</option>
+                <option value='yellowcards'>Yellow Cards</option>
+              </select>
+            </td>
+            <td>
+              <select id='tc_s' name='tc_s'>
+                <option value='choose'>Choose One</option>
+                <option value='corners'>Corners</option>
+                <option value='fouls'>Fouls</option>
+                <option value='goals'>Goals</option>
+                <option value='goalsallowed'>Goals Allowed</option>
+                <option value='redcards'>Red Cards</option>
+                <option value='shots'>Shots</option>
+                <option value='shotsontarget'>Shots on Target</option>
+                <option value='yellowcards'>Yellow Cards</option>
+              </select>
+            </td>
+            <td>
+              <button type="button" id="tc_generate" class="btn-primary">Generate</button>
+            </td>
+          </tr>
+          <tr class='text-center'>
+            <td colspan=4>
+              <img id='tc_graph'>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -74,6 +74,39 @@ def graph():
     plot_binary = 'data:image/png;base64, ' + binary
     return plot_binary
 
+@app.route('/graph_binary_tc', methods=['POST'])
+def graph_tc():
+    vars = request.json
+
+    img = StringIO.StringIO()
+
+    sns.set(style='whitegrid')
+
+    g = sns.PairGrid(df_sub.sort_values(vars['x'], ascending=False),
+                        x_vars=[vars['x'], vars['y'], vars['v']],
+                        y_vars=['team'],
+                        size=5,
+                        aspect=.45)
+    g.map(sns.stripplot,
+            size=10,
+            orient="h",
+            palette=sns.cubehelix_palette(20, start=.5, rot=-.75, reverse=True),
+            edgecolor="gray")
+
+    titles = [vars['xn'], vars['yn'], vars['vn']]
+    for ax, title in zip(g.axes.flat, titles):
+        ax.set(xlabel=title, title=title, ylabel='')
+        ax.xaxis.grid(False)
+        ax.yaxis.grid(True)
+
+    sns.despine(left=True, bottom=True)
+    g.savefig(img, format='png')
+    img.seek(0)
+
+    binary = base64.b64encode(img.getvalue())
+    plot_binary = 'data:image/png;base64, ' + binary
+    return plot_binary
+
 def clean_up(data):
     soln = []
     for val in data:
@@ -91,5 +124,8 @@ if __name__ == '__main__':
     df_full = load_df('fixtures_full')
     df_bt = load_df('base_table')
     df_trans = load_df('trans_fix')
+
+    df_sub = df_trans[df_trans.season == 16].groupby('team').mean()
+    df_sub = df_sub.reset_index()
 
     app.run(host='0.0.0.0', port='8081', threaded=True)
