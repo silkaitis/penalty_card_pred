@@ -39,17 +39,17 @@ client.close()
 '''
 Extract league fixtures
 '''
-# historic_data(league = EPL,
-#                 seasons = seasons,
-#                 fpath = fixture_fpath,
-#                 api_call = 'fixtures',
-#                 api_conn = xmls)
+historic_data(league = EPL,
+                seasons = seasons,
+                fpath = fixture_fpath,
+                api_call = 'fixtures',
+                api_conn = xmls)
 
 '''
 Extract league tables
 '''
-# historic_data(league = EPL,
-#                 seasons = seasons,
-#                 fpath = table_fpath,
-#                 api_call = 'table',
-#                 api_conn = xmls)
+historic_data(league = EPL,
+                seasons = seasons,
+                fpath = table_fpath,
+                api_call = 'table',
+                api_conn = xmls)

@@ -1,5 +1,6 @@
 import StringIO
 import base64
+import math
 
 import cPickle as pickle
 import psycopg2 as pg2
@@ -36,8 +37,7 @@ def match():
     match.fillna(value=0, inplace=True)
 
     pred = model.predict(match)
-
-    pred = clean_up(pred[0])
+    pred = cards(pred[0])
 
     return jsonify({'home': home,
                     'home_yellow': pred[2],
@@ -107,13 +107,20 @@ def graph_tc():
     plot_binary = 'data:image/png;base64, ' + binary
     return plot_binary
 
-def clean_up(data):
-    soln = []
-    for val in data:
-        if val < 0:
-            soln.append(0.00)
-        else:
-            soln.append(round(val, 2))
+def poisson_prob(u, n):
+    soln = (np.exp(-u) * pow(u, n)) / math.factorial(n)
+    return(soln)
+
+def cards(y_pred):
+    soln = [0] * len(y_pred)
+
+    for k, val in enumerate(y_pred):
+        temp = 0
+        for i in xrange(10):
+            calc = poisson_prob(val, i)
+            if calc > temp:
+                soln[k] = i
+                temp = calc
     return(soln)
 
 if __name__ == '__main__':

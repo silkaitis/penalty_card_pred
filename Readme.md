@@ -46,11 +46,11 @@ Feature engineering will be an important to develop meaningful relationships bet
 
 Multioutput classification or regression would be the desired approach to predicting match outcomes. It eliminates the need for encoding match outcomes into a single value. Most Sklearn models can be used for multioutput prediction either natively or through the [multioutput](http://scikit-learn.org/stable/modules/classes.html#module-sklearn.multioutput) module. Models listed below are being considered but all may be used to improve the overall performance.
 
-  1. Ridge Regression
+  1. Lasso Regression
   2. Ensemble Methods
     * Gradient Boosting
     * Random Forest
-  3. Support Vector Machines / Classifiers
+  3. Support Vector Machines
   4. Neural Network
 
 **Evaluation**
