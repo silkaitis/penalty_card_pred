@@ -63,9 +63,13 @@ def graph():
                              values=vars['v'],
                              aggfunc='mean')
     hmap = sns.heatmap(p_table.sort_index(ascending = False))
+
     hmap.set_title('Average ' + vars['vn'])
     hmap.set_xlabel(vars['xn'])
     hmap.set_ylabel(vars['yn'])
+    hmap.set_yticklabels(hmap.get_ymajorticklabels(), rotation=0)
+    hmap.set_xticklabels(hmap.get_xmajorticklabels(), rotation=90)
+
     fig = hmap.get_figure()
     fig.savefig(img, format='png')
     img.seek(0)
@@ -96,6 +100,10 @@ def graph_tc():
     titles = [vars['xn'], vars['yn'], vars['vn']]
     for ax, title in zip(g.axes.flat, titles):
         ax.set(xlabel=title, title=title, ylabel='')
+
+        for tick in ax.get_xticklabels():
+            tick.set_rotation(90)
+
         ax.xaxis.grid(False)
         ax.yaxis.grid(True)
 
