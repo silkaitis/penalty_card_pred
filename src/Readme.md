@@ -27,6 +27,6 @@ Script workflow
 6. Update Data
   1. **season_update.py** - Updates JSON files and MongoDB with latest EPL matches
 
-After the model is built, pred_match.py is the only script needed to make predictions. Steps 3 and 4 must be re-run after season data is updated (step 6).
+After the model is built, pred_match.py is the only script needed to make predictions. Steps 2, 3 and 4 must be re-run after season data is updated (step 6).
 
 Note: Scripts only in bold need to be executed to rebuild the project.
