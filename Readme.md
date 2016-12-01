@@ -62,6 +62,10 @@ Linear regression was selected for the final model for simplicity and similar pe
 
 ## Deployment
 
+The project has two main portions; data pipeline and web application. Below is the workflow for implementing this product.
+
+![img](https://github.com/silkaitis/penalty_card_pred/blob/master/img/project_workflow.png?raw=true)
+
 Most matches occur on Saturday or Sunday in the English Premier League. Predictions can be made through a web application located at [www.danius.tech](http://www.danius.tech) at any time. The base analytical table will be updated at beginning of each week to incorporate the latest match results.
 
 The initial app version will only predict number of penalty cards for a given team; not players on a particular team.
