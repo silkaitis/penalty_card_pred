@@ -69,3 +69,7 @@ The project has two main portions; data pipeline and web application. Below is t
 Most matches occur on Saturday or Sunday in the English Premier League. Predictions can be made through a web application located at [www.danius.tech](http://www.danius.tech) at any time. The base analytical table will be updated at beginning of each week to incorporate the latest match results.
 
 The initial app version will only predict number of penalty cards for a given team; not players on a particular team.
+
+## Further Work
+
+Another version of this project is being developed to utilize Apache Spark instead of PostgreSQL for data management. The repo is located at [pen_card_spark](https://github.com/silkaitis/pen_card_spark).
